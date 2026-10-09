@@ -131,6 +131,19 @@ def main():
     with open(args.dados, encoding="utf-8") as f:
         d = json.load(f)
 
+    # Chaves válidas: modelo assets/fluxograma-dados.json. Chaves com "_" são notas.
+    known = set(INT_KEYS) | set(TEXT_KEYS) | set(REASON_KEYS)
+    unknown = [k for k in d if not k.startswith("_") and k not in known]
+    if unknown:
+        print("Chaves não reconhecidas no JSON (use o modelo assets/fluxograma-dados.json): %s"
+              % ", ".join(sorted(unknown)), file=sys.stderr)
+        sys.exit(1)
+    if all(norm(d.get(k)) is None for k in INT_KEYS) and \
+       all(norm(d.get(k)) is None for k in REASON_KEYS + TEXT_KEYS):
+        print("JSON sem contagens: nenhum campo preenchido (null/vazio = caixa oculta). "
+              "Modelo: assets/fluxograma-dados.json", file=sys.stderr)
+        sys.exit(1)
+
     erros = []
     ints = parse_ints(d, erros)
     dbr_excl_txt, dbr_excl_n = parse_reasons(d, "dbr_excluded", erros)
