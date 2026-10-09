@@ -40,57 +40,6 @@ def arrow(ax, x1, y1, x2, y2):
     ax.add_patch(a)
 
 
-def fig_fluxograma(out):
-    """Fluxograma PRISMA 2020 (revisão nova), com espaços (n = ) para preencher."""
-    fig, ax = plt.subplots(figsize=(9.5, 11.5))
-    ax.set_xlim(0, 10)
-    ax.set_ylim(0, 12)
-    ax.axis("off")
-
-    bandas = [
-        (6.7, 11.5, "Identificação"),
-        (3.4, 6.9, "Triagem"),
-        (0.5, 2.9, "Incluídos"),
-    ]
-    for y0, y1, label in bandas:
-        b = FancyBboxPatch(
-            (0.15, y0), 9.7, y1 - y0,
-            boxstyle="round,pad=0.02,rounding_size=0.06",
-            fc=AZUL_CLARO, ec="none",
-        )
-        ax.add_patch(b)
-        ax.text(0.4, y1 - 0.3, label, fontsize=12, weight="bold", color=AZUL)
-
-    box(ax, 2.2, 9.9, 5.6, 1.35,
-        "Registros identificados de:\nBases de dados e repositórios (n = )\nOutras fontes (n = )")
-    box(ax, 1.6, 8.25, 6.8, 1.25,
-        "Registros removidos antes da triagem:\nDuplicados (n = )  ·  Não elegíveis por automação (n = )  ·  Outros motivos (n = )",
-        fc=CINZA_CLARO)
-    box(ax, 2.2, 7.0, 2.6, 0.8, "Registros triados\n(n = )")
-    box(ax, 5.9, 7.0, 2.6, 0.8, "Registros excluídos\n(n = )", fc=CINZA_CLARO)
-
-    box(ax, 2.2, 5.35, 2.9, 0.85, "Publicações procuradas\n(n = )")
-    box(ax, 5.9, 5.35, 2.9, 0.85, "Publicações não recuperadas\n(n = )", fc=CINZA_CLARO)
-    box(ax, 2.2, 4.15, 2.9, 0.85, "Publicações avaliadas para\nelegibilidade (n = )")
-    box(ax, 5.9, 4.0, 3.4, 1.15,
-        "Publicações excluídas:\nMotivo 1 (n = )\nMotivo 2 (n = )\nMotivo 3 (n = ) etc.", fc=CINZA_CLARO)
-
-    box(ax, 2.2, 1.05, 5.6, 1.25,
-        "Estudos incluídos na revisão (n = )\nPublicações dos estudos incluídos (n = )")
-
-    arrow(ax, 5.0, 9.9, 5.0, 9.53)
-    arrow(ax, 3.4, 8.25, 3.4, 7.83)
-    arrow(ax, 4.8, 7.4, 5.9, 7.4)
-    arrow(ax, 3.0, 7.0, 3.0, 6.23)
-    arrow(ax, 5.1, 5.78, 5.9, 5.78)
-    arrow(ax, 3.6, 5.35, 3.6, 5.03)
-    arrow(ax, 5.1, 4.58, 5.9, 4.58)
-    arrow(ax, 3.6, 4.15, 3.6, 2.33)
-
-    fig.savefig(out, dpi=150, bbox_inches="tight", facecolor="white")
-    plt.close(fig)
-
-
 def fig_workflow(out):
     """Fluxo de trabalho da skill: triagem + 10 fases."""
     fases = [
@@ -157,7 +106,6 @@ def fig_busca(out):
 def main():
     out = sys.argv[1] if len(sys.argv) > 1 else "images"
     os.makedirs(out, exist_ok=True)
-    fig_fluxograma(os.path.join(out, "fluxograma-prisma-2020.png"))
     fig_workflow(os.path.join(out, "workflow-skill.png"))
     fig_busca(os.path.join(out, "modulo-busca.png"))
     print("figuras geradas em", out)

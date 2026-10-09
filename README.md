@@ -5,8 +5,9 @@
 [![PRISMA](https://img.shields.io/badge/PRISMA-2020%20(pt--BR)-8ecae6)](https://www.prisma-statement.org/)
 [![app Shiny](https://img.shields.io/badge/app%20Shiny-prisma2020--ptbr-orange.svg)](https://getmep.shinyapps.io/prisma2020-ptbr/)
 
-Skill de agente (padrão [Agent Skills](https://agentskills.io/specification),
-compatível com Command Code) que conduz o **relato** de revisões sistemáticas e
+Skill de agente (padrão [Agent Skills](https://agentskills.io/specification) —
+compatível com **Command Code**, **Claude Code** e outros agentes que implementam
+o padrão) que conduz o **relato** de revisões sistemáticas e
 meta-análises **100% conforme a Declaração PRISMA 2020 na tradução oficial em
 português brasileiro**:
 
@@ -49,12 +50,19 @@ da tradução oficial, usada sem parafrasear.
 
 ## Instalação
 
-```bash
-# pessoal (todos os projetos)
-cp -r prisma-br ~/.commandcode/skills/
+Copie a pasta para o diretório de skills do seu agente:
 
-# ou por projeto
-cp -r prisma-br <repo>/.commandcode/skills/
+```bash
+# Command Code
+cp -r prisma-br ~/.commandcode/skills/          # pessoal (todos os projetos)
+cp -r prisma-br <repo>/.commandcode/skills/     # por projeto
+
+# Claude Code
+cp -r prisma-br ~/.claude/skills/               # pessoal
+cp -r prisma-br <repo>/.claude/skills/          # por projeto
+
+# qualquer agente com suporte a Agent Skills
+cp -r prisma-br <pasta de skills do agente>/
 ```
 
 Invocação: `/prisma-br [novo | atualizado | auditar]` — ou o agente ativa a skill
@@ -126,7 +134,9 @@ corrija o JSON e rode de novo.
 
 ## Fluxograma no app Shiny
 
-![Fluxograma PRISMA 2020 (revisão nova)](images/fluxograma-prisma-2020.png)
+A figura oficial do fluxograma **não é gerada por esta skill** — ela é produzida
+pelo app Shiny a partir do `PRISMA.csv` exportado (aqui o script prepara apenas as
+contagens conferidas e o CSV; o app é a fonte da figura):
 
 1. Preencher `prisma/fluxograma-dados.json` (cada número com origem:
    `resumo-busca.json`, `manual.md` ou resposta do usuário).
