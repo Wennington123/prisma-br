@@ -34,6 +34,27 @@ Baseie-se exclusivamente nos arquivos desta skill (extratos fiéis do PDF oficia
 Leia `references/checklist-27.md` no início de qualquer tarefa. Leia os demais arquivos
 conforme a fase exigir.
 
+## Divisão de trabalho (IA × humano)
+
+Divisão fixa de papéis nesta skill:
+
+- **IA** (esta skill):
+  - Estratégias de busca e execução nas APIs abertas (`busca.py`).
+  - **Leitura limitada a título e resumo**: triagem, extração (itens 9–10),
+    tabela de características, síntese narrativa, `PRISMA.csv` e os `.md` com o
+    texto que o artigo vai usar.
+  - **Registro sem resumo = exclusão** na etapa de título/resumo (razão:
+    "sem resumo disponível"). A IA não busca texto completo para compensar.
+- **Humano** (usuário):
+  - Buscas manuais nas fontes bloqueadas (preenche `prisma/busca/manual.md`).
+  - Leitura do texto completo (validação da inclusão final, citações completas).
+  - Geração do fluxograma: sobe `prisma/PRISMA.csv` no app Shiny oficial e
+    exporta a figura.
+  - Escrita final do artigo, a partir dos textos dos `.md`.
+
+A IA nunca afirma ter lido texto completo; informação que só existe no texto
+completo fica `[PENDENTE — texto completo (humano)]`.
+
 ## Triagem (sempre primeiro)
 
 1. Pergunte se falta:
@@ -88,6 +109,9 @@ Siga `references/buscas.md`.
 
 - Item 8: método de seleção — quantos revisores, se independentes, ferramenta de
   automação (indicar quantos registros foram excluídos por pessoas vs. por automação).
+- **Extrair apenas de resumos** (ver Divisão de trabalho): registro sem resumo
+  é excluído nesta etapa, com a razão "sem resumo disponível"; o texto completo
+  é lido pelo humano.
 - Item 9: método de coleta de dados — quantos revisores, se independentes, contato com
   autores, automação.
 - Item 10a: listar e definir **todos** os desfechos; se não coletou todos os
@@ -152,9 +176,10 @@ Siga `references/fluxograma.md`. Caminho principal: CSV para o **app Shiny ofici
 3. Executar `python3 scripts/fluxograma.py --dados prisma/fluxograma-dados.json
    --out prisma/PRISMA.csv`. O script confere as somas e só exporta se fechar;
    se faltar, corrigir os dados — nunca pular a conferência.
-4. Entregar `prisma/PRISMA.csv` para subir no app e exportar a figura
-   (PNG/PDF) em `prisma/fluxograma-prisma.png`. Se o usuário quiser, automatizar
-   a subida e o download com a skill `agent-browser`.
+4. **Humano** (Divisão de trabalho): subir `prisma/PRISMA.csv` no app e
+    exportar a figura (PNG/PDF) em `prisma/fluxograma-prisma.png`. A IA entrega o
+    CSV conferido; a geração da figura é do humano (automatizar com a skill
+    `agent-browser` apenas se o usuário pedir).
 5. Alternativa offline (apenas rascunho/preview): template Mermaid de
    `references/fluxograma.md` — não substitui a figura oficial do app.
 
@@ -184,6 +209,10 @@ Passo a passo:
   `prisma/busca/manual.md`.
 - Fontes sem API pública: busca manual pelo usuário; sem scraping, sem contornar
   bloqueio de acesso.
+- **Leitura só de resumos**: a IA não lê e não afirma ter lido texto completo;
+  registro sem resumo é excluído (razão "sem resumo disponível"). Busca manual,
+  texto completo, geração do fluxograma (app Shiny) e escrita final do artigo
+  são do humano (ver Divisão de trabalho).
 - Texto dos itens: use a redação de `references/checklist-27.md` (tradução oficial),
   sem parafrasear.
 - "Publicação" inclui artigo, preprint, resumo de conferência, dados de registro,
