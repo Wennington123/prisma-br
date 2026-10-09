@@ -48,6 +48,9 @@ Divisão fixa de papéis nesta skill:
 - **Humano** (usuário):
   - Buscas manuais nas fontes bloqueadas (preenche `prisma/busca/manual.md`).
   - Leitura do texto completo (validação da inclusão final, citações completas).
+  - Justificar **individualmente, no artigo**, as exclusões agrupadas em
+    "outros" (itens 16a/16b) — a IA prepara a lista de trabalho
+    (`prisma/triagem/outros-justificar.md`); o texto final é do humano.
   - Geração do fluxograma: sobe `prisma/PRISMA.csv` no app Shiny oficial e
     exporta a figura.
   - Escrita final do artigo, a partir dos textos dos `.md`.
