@@ -111,6 +111,12 @@ def parse_reasons(d, k, erros):
         if "," not in part:
             erros.append("%s: trecho sem contagem (esperado 'Razão, n'): %r" % (k, part))
             return s, total
+        if part.count(",") > 1:
+            erros.append(
+                "%s: a razão '%s' contém vírgula interna — o app Shiny lê a PRIMEIRA "
+                "vírgula como separador do número (a razão seria truncada e o n, zerado). "
+                "Use '/' ou 'e' no texto da razão: 'Razão, n; Razão2, n2'" % (k, part))
+            return s, total
         n_part = part.rsplit(",", 1)[1].strip()
         try:
             total += int(n_part)
